@@ -12,8 +12,8 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000', // Update with your server URL
-        description: 'Local development server',
+        url: 'https://notes.mahdidahouei.com',
+        description: 'Deployed Server',
       },
     ],
     components: {
