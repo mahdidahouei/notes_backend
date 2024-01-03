@@ -8,7 +8,7 @@ const options = {
     info: {
       title: 'Notes App API',
       version: '1.0.0',
-      description: 'API documentation for the Notes App\nDeveloped by Mahdi Dahouei',
+      description: 'API documentation for the Notes App. Developed by Mahdi Dahouei',
     },
     servers: [
       {
