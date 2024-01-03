@@ -16,6 +16,11 @@ connectDB();
 // Middleware
 app.use(express.json());
 
+// Redirect root to /api-docs
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
 // Routes
 app.use('/api/notes', noteRoutes);
 app.use('/api/user', userRoutes);
