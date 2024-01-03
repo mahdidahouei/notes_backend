@@ -99,7 +99,7 @@ router.post('/login', userController.login);
  * @swagger
  * /api/user/refresh-token:
  *   post:
- *     summary: get new tokens using refreshToken
+ *     summary: Get new JWT tokens using refreshToken
  *     tags: [Users]
  *     security:
  *       - BearerAuth: []
