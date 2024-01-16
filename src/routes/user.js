@@ -23,7 +23,7 @@
  *         password:
  *           type: string
  *           description: The password of the user.
- *           example: "secretpassword"
+ *           example: "mySecurePassword"
  */
 const express = require('express');
 const router = express.Router();
