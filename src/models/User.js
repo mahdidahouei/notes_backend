@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const noteSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 const userSchema = new mongoose.Schema({
@@ -20,6 +22,8 @@ const userSchema = new mongoose.Schema({
   },
   fullName: { type: String },
   password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
   notes: [noteSchema], 
 });
 

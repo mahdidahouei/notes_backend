@@ -4,7 +4,6 @@
  *   name: Notes
  *   description: API endpoints for managing notes
  */
-
 /**
  * @swagger
  * components:
@@ -14,12 +13,12 @@
  *       properties:
  *         title:
  *           type: string
- *           description: The note title
- *           example: My Note
+ *           description: The title of the note.
+ *           example: "My Note"
  *         content:
  *           type: string
- *           description: The note content
- *           example: This is the content of my note.
+ *           description: The content of the note.
+ *           example: "This is the content of my note."
  */
 
 
@@ -36,7 +35,7 @@ const authMiddleware = require('../middleware/auth');
  *     summary: Create a new note
  *     tags: [Notes]
  *     security:
- *       - BearerAuth: []
+ *       - Bearer: []
  *     requestBody:
  *       required: true
  *       content:
@@ -53,6 +52,8 @@ const authMiddleware = require('../middleware/auth');
  *               note:
  *                 title: My Note
  *                 content: This is the content of my note.
+ *                 createdAt: "2022-01-03T12:30:45.000Z"
+ *                 updatedAt: "2022-01-03T14:45:22.000Z"
  *       '401':
  *         description: Authentication failed
  *       '500':
@@ -68,7 +69,7 @@ router.post('/', authMiddleware, noteController.createNote);
  *     summary: Get all notes
  *     tags: [Notes]
  *     security:
- *       - BearerAuth: []
+ *       - Bearer: []
  *     responses:
  *       '200':
  *         description: Returns an array of notes
@@ -77,8 +78,12 @@ router.post('/', authMiddleware, noteController.createNote);
  *             example:
  *               - title: My Note 1
  *                 content: This is the content of my first note.
+ *                 createdAt: "2022-01-03T12:30:45.000Z"
+ *                 updatedAt: "2022-01-03T14:45:22.000Z"
  *               - title: My Note 2
  *                 content: This is the content of my second note.
+ *                 createdAt: "2022-01-04T12:30:45.000Z"
+ *                 updatedAt: "2022-01-04T12:30:45.000Z"
  *       '401':
  *         description: Authentication failed
  *       '500':
@@ -93,7 +98,7 @@ router.get('/', authMiddleware, noteController.getAllNotes);
  *     summary: Get a single note by ID
  *     tags: [Notes]
  *     security:
- *       - BearerAuth: []
+ *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: noteId
@@ -109,6 +114,8 @@ router.get('/', authMiddleware, noteController.getAllNotes);
  *             example:
  *               title: My Note
  *               content: This is the content of my note.
+ *               createdAt: "2022-01-03T12:30:45.000Z"
+ *               updatedAt: "2022-01-03T14:45:22.000Z"
  *       '401':
  *         description: Authentication failed
  *       '404':
@@ -125,7 +132,7 @@ router.get('/:noteId', authMiddleware, noteController.getNoteById);
  *     summary: Update a note by ID
  *     tags: [Notes]
  *     security:
- *       - BearerAuth: []
+ *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: noteId
@@ -149,6 +156,8 @@ router.get('/:noteId', authMiddleware, noteController.getNoteById);
  *               note:
  *                 title: Updated Note
  *                 content: This is the updated content of my note.
+ *                 createdAt: "2022-01-03T12:30:45.000Z"
+ *                 updatedAt: "2022-01-03T14:45:22.000Z"
  *       '401':
  *         description: Authentication failed
  *       '404':
@@ -165,7 +174,7 @@ router.put('/:noteId', authMiddleware, noteController.updateNote);
  *     summary: Delete a note by ID
  *     tags: [Notes]
  *     security:
- *       - BearerAuth: []
+ *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: noteId

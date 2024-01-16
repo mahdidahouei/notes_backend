@@ -16,10 +16,13 @@ const createNote = async (req, res) => {
 
     // Create a new note
     const newNote = { title, content };
+    newNote.createdAt = newNote.updatedAt = Date.now();
     user.notes.push(newNote);
-    await user.save();
+    var newUser = await user.save();
 
-    res.status(201).json({ message: 'Note created successfully', note: newNote });
+    const responseNote = newUser.notes[newUser.notes.length - 1];
+
+    res.status(201).json({ message: 'Note created successfully', note: responseNote });
   } catch (error) {
     console.error('Create note failed:', error.message);
     res.status(500).json({ message: error.message });
@@ -84,6 +87,7 @@ const updateNote = async (req, res) => {
     // Update note properties
     note.title = req.body.title || note.title;
     note.content = req.body.content || note.content;
+    note.updatedAt = Date.now()
     await user.save();
 
     res.json({ message: 'Note updated successfully', note });

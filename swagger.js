@@ -2,6 +2,8 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
+const PORT = process.env.PORT || 3000;
+
 const options = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -10,16 +12,21 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for the Notes App. Developed by Mahdi Dahouei',
     },
-    servers: [
-      {
-        url: 'https://notes.mahdidahouei.com',
-        description: 'Deployed Server',
-      },
-    ],
+    // servers: [
+    //   {
+    //     url: 'https://notes.mahdidahouei.com',
+    //     description: 'Deployed Server',
+    //   },
+    //   {
+    //     url: `http://localhost:${PORT}/`,
+    //     description: 'Local host',
+    //   },
+    // ],
     components: {
       securitySchemes: {
-        BearerAuth: {
+        Bearer: {
           type: 'http',
+          description: 'Enter JWT Bearer token **_only_**',
           scheme: 'bearer',
           bearerFormat: 'JWT',
         },
@@ -29,6 +36,9 @@ const options = {
   apis: ['./src/routes/*.js'],
 };
 
+
 const specs = swaggerJsdoc(options);
+
+
 
 module.exports = { specs, swaggerUi };

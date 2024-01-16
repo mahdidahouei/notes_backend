@@ -25,11 +25,13 @@ app.get('/', (req, res) => {
 app.use('/api/notes', noteRoutes);
 app.use('/api/user', userRoutes);
 
-
-
 // Swagger setup
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+// Serve Swagger JSON
+app.get('/swagger-json', (req, res) => {
+  res.json(specs);
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

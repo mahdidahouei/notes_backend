@@ -18,6 +18,9 @@ const signup = async (req, res) => {
 
     // Create a new user
     const newUser = new User({ username, password: hashedPassword, fullName });
+
+    newUser.createdAt = newUser.updatedAt = Date.now();
+
     await newUser.save();
 
     res.status(201).json({ message: "User created successfully" });
@@ -97,4 +100,74 @@ const refreshToken = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, refreshToken };
+const updateUser = async (req, res) => {
+  try {
+    const { username, fullName } = req.body;
+
+    // Get the user ID from the token
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+
+    if (user.username != username) {
+      // Check if the new username already exists
+      const existingUser = await User.findOne({
+        username: username, // Exclude the current user from the check
+      });
+
+      if (existingUser) {
+        return res
+          .status(400)
+          .json({
+            message: "Username already exists. Choose a different one.",
+          });
+      }
+    }
+
+    await User.findByIdAndUpdate(
+      userId,
+      { $set: { username, fullName, updatedAt: Date.now() } },
+      { new: true }
+    );
+
+    res.json("User updated successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // Get the user ID from the token
+    const userId = req.user.userId;
+
+    const user = await User.findById(userId);
+
+    // Check if the current password is correct
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+
+    // Hash and update the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    user.updatedAt = new Date();
+
+    await user.save();
+
+    res.json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = { signup, login, refreshToken, updateUser, updatePassword };

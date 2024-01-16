@@ -14,20 +14,21 @@
  *       properties:
  *         username:
  *           type: string
- *           description: The user's username
- *           example: john_doe
+ *           description: The username of the user.
+ *           example: "john_doe"
  *         fullName:
  *           type: string
- *           description: The user's full name
- *           example: John Doe
+ *           description: The full name of the user.
+ *           example: "John Doe"
  *         password:
  *           type: string
- *           description: The user's password
- *           example: mySecurePassword
+ *           description: The password of the user.
+ *           example: "secretpassword"
  */
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const authMiddleware = require('../middleware/auth');
 
 
 /**
@@ -102,7 +103,7 @@ router.post('/login', userController.login);
  *     summary: Get new JWT tokens using refreshToken
  *     tags: [Users]
  *     security:
- *       - BearerAuth: []
+ *       - Bearer: []
  *     requestBody:
  *       required: true
  *       content:
@@ -128,5 +129,87 @@ router.post('/login', userController.login);
  */
  
 router.post('/refresh-token', userController.refreshToken);
+
+
+
+/**
+ * @swagger
+ * /api/user:
+ *    put:
+ *      summary: Update user information
+ *      tags: [Users]
+ *      security:
+ *        - Bearer: []
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                username:
+ *                  type: string
+ *                fullName:
+ *                  type: string
+ *              example:
+ *                username: newUsername
+ *                fullName: New Fullname
+ *      responses:
+ *        '200':
+ *          description: User updated successfully
+ *          content:
+ *            application/json:
+ *              example:
+ *                _id: userId
+ *                username: newUsername
+ *                fullname: New Fullname
+ *                createdAt: 2022-01-01T00:00:00.000Z
+ *                updatedAt: 2022-01-01T01:00:00.000Z
+ *        '500':
+ *          description: Internal Server Error
+ */
+router.put('/', authMiddleware, userController.updateUser);
+
+/**
+ * @swagger
+ * /api/user/password:
+ *    put:
+ *      summary: Update user password
+ *      tags: [Users]
+ *      security:
+ *        - Bearer: []
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                currentPassword:
+ *                  type: string
+ *                newPassword:
+ *                  type: string
+ *              example:
+ *                currentPassword: currentPass
+ *                newPassword: newPass
+ *      responses:
+ *        '200':
+ *          description: Password updated successfully
+ *          content:
+ *            application/json:
+ *              example:
+ *                message: Password updated successfully
+ *        '400':
+ *          description: Current password is incorrect
+ *          content:
+ *            application/json:
+ *              example:
+ *                message: Current password is incorrect
+ *        '500':
+ *          description: Internal Server Error
+ */
+router.put('/password', authMiddleware, userController.updatePassword);
+
+
 
 module.exports = router;
