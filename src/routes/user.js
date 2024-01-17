@@ -212,4 +212,46 @@ router.put('/password', authMiddleware, userController.updatePassword);
 
 
 
+/**
+ * @swagger
+ * path:
+ *   /api/users/check-username/{username}:
+ *     get:
+ *       summary: Check if a username is available
+ *       tags: [Users]
+ *       parameters:
+ *         - in: path
+ *           name: username
+ *           schema:
+ *             type: string
+ *           required: true
+ *           description: The username to check for availability
+ *       responses:
+ *         "200":
+ *           description: Success response
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   available:
+ *                     type: boolean
+ *                     description: Indicates whether the username is available
+ *                   message:
+ *                     type: string
+ *                     description: Message providing additional information
+ *         "500":
+ *           description: Internal Server Error
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     description: Error message
+ */
+router.get('/check-username/:username', userController.checkUsernameAvailability);
+
+
 module.exports = router;

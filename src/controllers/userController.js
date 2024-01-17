@@ -170,4 +170,23 @@ const updatePassword = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, refreshToken, updateUser, updatePassword };
+
+const checkUsernameAvailability = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    // Check if the username already exists
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      res.json({ available: false, message: 'Username not available' });
+    } else {
+      res.json({ available: true, message: 'Username available' });
+    }
+  } catch (error) {
+    console.error('Check username availability failed:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { signup, login, refreshToken, updateUser, updatePassword, checkUsernameAvailability };
