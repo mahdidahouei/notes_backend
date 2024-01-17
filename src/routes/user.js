@@ -214,8 +214,7 @@ router.put('/password', authMiddleware, userController.updatePassword);
 
 /**
  * @swagger
- * path:
- *   /api/users/check-username/{username}:
+ * /api/user/check-username/{username}:
  *     get:
  *       summary: Check if a username is available
  *       tags: [Users]
