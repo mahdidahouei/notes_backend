@@ -25,11 +25,10 @@
  *           description: The password of the user.
  *           example: "mySecurePassword"
  */
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('../controllers/userController');
-const authMiddleware = require('../middleware/auth');
-
+const userController = require("../controllers/userController");
+const authMiddleware = require("../middleware/auth");
 
 /**
  * @swagger
@@ -57,8 +56,7 @@ const authMiddleware = require('../middleware/auth');
  *       '500':
  *         description: Internal Server Error
  */
-router.post('/signup', userController.signup);
-
+router.post("/signup", userController.signup);
 
 /**
  * @swagger
@@ -93,8 +91,7 @@ router.post('/signup', userController.signup);
  *       '500':
  *         description: Internal Server Error
  */
-router.post('/login', userController.login);
-
+router.post("/login", userController.login);
 
 /**
  * @swagger
@@ -127,90 +124,8 @@ router.post('/login', userController.login);
  *       '500':
  *         description: Internal Server Error
  */
- 
-router.post('/refresh-token', userController.refreshToken);
 
-
-
-/**
- * @swagger
- * /api/user:
- *    put:
- *      summary: Update user information
- *      tags: [Users]
- *      security:
- *        - Bearer: []
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                username:
- *                  type: string
- *                fullName:
- *                  type: string
- *              example:
- *                username: newUsername
- *                fullName: New Fullname
- *      responses:
- *        '200':
- *          description: User updated successfully
- *          content:
- *            application/json:
- *              example:
- *                _id: userId
- *                username: newUsername
- *                fullname: New Fullname
- *                createdAt: 2022-01-01T00:00:00.000Z
- *                updatedAt: 2022-01-01T01:00:00.000Z
- *        '500':
- *          description: Internal Server Error
- */
-router.put('/', authMiddleware, userController.updateUser);
-
-/**
- * @swagger
- * /api/user/password:
- *    put:
- *      summary: Update user password
- *      tags: [Users]
- *      security:
- *        - Bearer: []
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                currentPassword:
- *                  type: string
- *                newPassword:
- *                  type: string
- *              example:
- *                currentPassword: currentPass
- *                newPassword: newPass
- *      responses:
- *        '200':
- *          description: Password updated successfully
- *          content:
- *            application/json:
- *              example:
- *                message: Password updated successfully
- *        '400':
- *          description: Current password is incorrect
- *          content:
- *            application/json:
- *              example:
- *                message: Current password is incorrect
- *        '500':
- *          description: Internal Server Error
- */
-router.put('/password', authMiddleware, userController.updatePassword);
-
-
+router.post("/refresh-token", userController.refreshToken);
 
 /**
  * @swagger
@@ -250,7 +165,87 @@ router.put('/password', authMiddleware, userController.updatePassword);
  *                     type: string
  *                     description: Error message
  */
-router.get('/check-username/:username', userController.checkUsernameAvailability);
+router.get(
+  "/check-username/:username",
+  userController.checkUsernameAvailability
+);
 
+/**
+ * @swagger
+ * /api/user:
+ *    put:
+ *      summary: Update user information
+ *      tags: [Users]
+ *      security:
+ *        - Bearer: []
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                username:
+ *                  type: string
+ *                fullName:
+ *                  type: string
+ *              example:
+ *                username: newUsername
+ *                fullName: New Fullname
+ *      responses:
+ *        '200':
+ *          description: User updated successfully
+ *          content:
+ *            application/json:
+ *              example:
+ *                _id: userId
+ *                username: newUsername
+ *                fullname: New Fullname
+ *                createdAt: 2022-01-01T00:00:00.000Z
+ *                updatedAt: 2022-01-01T01:00:00.000Z
+ *        '500':
+ *          description: Internal Server Error
+ */
+router.put("/", authMiddleware, userController.updateUser);
+
+/**
+ * @swagger
+ * /api/user/password:
+ *    put:
+ *      summary: Update user password
+ *      tags: [Users]
+ *      security:
+ *        - Bearer: []
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                currentPassword:
+ *                  type: string
+ *                newPassword:
+ *                  type: string
+ *              example:
+ *                currentPassword: currentPass
+ *                newPassword: newPass
+ *      responses:
+ *        '200':
+ *          description: Password updated successfully
+ *          content:
+ *            application/json:
+ *              example:
+ *                message: Password updated successfully
+ *        '400':
+ *          description: Current password is incorrect
+ *          content:
+ *            application/json:
+ *              example:
+ *                message: Current password is incorrect
+ *        '500':
+ *          description: Internal Server Error
+ */
+router.put("/password", authMiddleware, userController.updatePassword);
 
 module.exports = router;
