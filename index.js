@@ -5,7 +5,7 @@ const connectDB = require('./src/db');
 const { specs, swaggerUi } = require('./swagger');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const userRoutes = require('./src/routes/user');
 const noteRoutes = require('./src/routes/note');
