@@ -51,7 +51,7 @@ const getAllNotes = async (req, res) => {
 
     // Truncate content to approximately 80 characters
     const truncateContent = (content) => {
-      return content.length > 80 ? content.substring(0, 80) + '...' : content;
+      return content.length > 80 ? content.substring(0, 80) + '…' : content;
     };
 
     const truncatedNotes = notes.map(note => ({
