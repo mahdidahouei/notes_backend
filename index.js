@@ -40,18 +40,20 @@ app.listen(PORT, () => {
 
   const User = require('./src/models/User');
 
-  User.findOneAndDelete({username: 'shared'});
+  // User.findOneAndDelete({username: 'shared'}).then(() => {
+  //   console.log("User shared deleted");
+  // });
 
   // Call updateNotes script after server starts
-  // exec('node updateNotes.js', (error, stdout, stderr) => {
-  //   if (error) {
-  //     console.error(`Error executing script: ${error.message}`);
-  //     return;
-  //   }
-  //   if (stderr) {
-  //     console.error(`stderr: ${stderr}`);
-  //     return;
-  //   }
-  //   console.log(`stdout: ${stdout}`);
-  // });
+  exec('node updateNotes.js', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing script: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
 });
