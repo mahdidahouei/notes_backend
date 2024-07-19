@@ -38,8 +38,8 @@ const getAllNotes = async (req, res) => {
     }
 
     // Get _start and _limit from query parameters, set defaults if not provided
-    const start = parseInt(req.query._start) || 0;
-    const limit = parseInt(req.query._limit);
+    const start = parseInt(req.query._start, 10) || 0;
+    const limit = parseInt(req.query._limit, 10);
 
     // Get the notes based on the _start and _limit parameters
     let notes;
@@ -49,12 +49,23 @@ const getAllNotes = async (req, res) => {
       notes = user.notes.slice(start);
     }
 
-    res.json(notes);
+    // Truncate content to approximately 80 characters
+    const truncateContent = (content) => {
+      return content.length > 80 ? content.substring(0, 80) + '...' : content;
+    };
+
+    const truncatedNotes = notes.map(note => ({
+      ...note._doc,
+      content: truncateContent(note.content)
+    }));
+
+    res.json(truncatedNotes);
   } catch (error) {
     console.error('Get all notes failed:', error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const getNoteById = async (req, res) => {
   try {
