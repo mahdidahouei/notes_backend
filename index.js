@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./src/db');
 const { specs, swaggerUi } = require('./swagger');
+const { exec } = require('child_process'); // Import exec
 
 const app = express();
 const PORT = process.env.PORT || 3001;
