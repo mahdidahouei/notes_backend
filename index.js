@@ -4,6 +4,7 @@ const express = require('express');
 const connectDB = require('./src/db');
 const { specs, swaggerUi } = require('./swagger');
 const { exec } = require('child_process'); // Import exec
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,6 +17,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Redirect root to /api-docs
 app.get('/', (req, res) => {
