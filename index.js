@@ -37,16 +37,21 @@ app.get('/swagger-json', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
+
+  const User = require('./src/models/User');
+
+  User.findOneAndDelete({username: 'shared'});
+
   // Call updateNotes script after server starts
-  exec('node updateNotes.js', (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing script: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-  });
+  // exec('node updateNotes.js', (error, stdout, stderr) => {
+  //   if (error) {
+  //     console.error(`Error executing script: ${error.message}`);
+  //     return;
+  //   }
+  //   if (stderr) {
+  //     console.error(`stderr: ${stderr}`);
+  //     return;
+  //   }
+  //   console.log(`stdout: ${stdout}`);
+  // });
 });

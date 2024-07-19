@@ -13,7 +13,7 @@ async function updateNotes() {
     const techData = JSON.parse(fs.readFileSync('technology.json', 'utf-8'));
 
     // Combine data from both files
-    const allNotes = [...musicData, ...techData];
+    const allNotes = [...techData, ...musicData];
 
     // Find the user with username 'shared'
     const user = await User.findOne({ username: 'shared' });
