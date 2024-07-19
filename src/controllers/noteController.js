@@ -28,7 +28,6 @@ const createNote = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 const getAllNotes = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -38,7 +37,19 @@ const getAllNotes = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(user.notes);
+    // Get _start and _limit from query parameters, set defaults if not provided
+    const start = parseInt(req.query._start) || 0;
+    const limit = parseInt(req.query._limit);
+
+    // Get the notes based on the _start and _limit parameters
+    let notes;
+    if (limit) {
+      notes = user.notes.slice(start, start + limit);
+    } else {
+      notes = user.notes.slice(start);
+    }
+
+    res.json(notes);
   } catch (error) {
     console.error('Get all notes failed:', error.message);
     res.status(500).json({ message: error.message });

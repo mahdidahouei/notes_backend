@@ -66,10 +66,23 @@ router.post('/', authMiddleware, noteController.createNote);
  * @swagger
  * /api/notes:
  *   get:
- *     summary: Get all notes
+ *     summary: Get all notes with lazy loading
  *     tags: [Notes]
  *     security:
  *       - Bearer: []
+ *     parameters:
+ *       - in: query
+ *         name: _start
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *         description: The starting index of the notes to be fetched
+ *       - in: query
+ *         name: _limit
+ *         schema:
+ *           type: integer
+ *           default: null
+ *         description: The maximum number of notes to be fetched. If not provided, all notes from the specified _start will be fetched.
  *     responses:
  *       '200':
  *         description: Returns an array of notes
