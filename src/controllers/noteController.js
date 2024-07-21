@@ -5,6 +5,11 @@ const createNote = async (req, res) => {
   try {
     const { title, content } = req.body;
 
+    // Validate that at least one of title or content is provided
+    if (!title && !content) {
+      return res.status(400).json({ message: 'At least one of title or content must be provided' });
+    }
+
     // Get the user ID from the token
     const userId = req.user.userId;
 
