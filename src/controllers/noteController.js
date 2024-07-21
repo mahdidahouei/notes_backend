@@ -37,6 +37,9 @@ const getAllNotes = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Sort notes by updatedAt
+    user.notes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
     // Get _start and _limit from query parameters, set defaults if not provided
     const start = parseInt(req.query._start, 10) || 0;
     const limit = parseInt(req.query._limit, 10);
